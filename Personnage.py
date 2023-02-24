@@ -7,11 +7,11 @@ class Personnage(pygame.sprite.Sprite):
 
         self.vie=100
         self.vieMax=00
-        self.vitesse=10
+        self.vitesse=1
         self.perso=pygame.image.load("Image/Perso.png")
         self.getRect=self.perso.get_rect()
         self.getRect.x=200
-        self.getRect.y=380
+        self.getRect.y=500
 
     def bouger_droite(self):
         self.getRect.x+=self.vitesse
