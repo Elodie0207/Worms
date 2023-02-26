@@ -9,7 +9,7 @@ def main():
     pygame.init()
     screen=pygame.display.set_mode((1080,700))
     pygame.display.set_caption("Worms")
-    background=pygame.image.load("Image/NaUX7.png").convert()
+    background=pygame.image.load("Image/111130142640_50.jpg").convert()
     Partie=Jeu()
     montre=pygame.time.Clock()
     run=True
@@ -22,7 +22,7 @@ def main():
         Partie.bouger()
         print(Partie.personnage.vitesse)
         pygame.display.flip()
-      
+
         for event in pygame.event.get():
             if event.type==pygame.QUIT:
                 run=False
