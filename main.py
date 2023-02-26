@@ -11,15 +11,18 @@ def main():
     pygame.display.set_caption("Worms")
     background=pygame.image.load("Image/NaUX7.png").convert()
     Partie=Jeu()
+    montre=pygame.time.Clock()
     run=True
     while run:
         #fenêtre du jeu
+        montre.tick(60)
         screen.blit(background,(0,-100))
         #fenêtre du perso
         screen.blit(Partie.personnage.perso,Partie.personnage.getRect)
         Partie.bouger()
         print(Partie.personnage.vitesse)
         pygame.display.flip()
+      
         for event in pygame.event.get():
             if event.type==pygame.QUIT:
                 run=False
@@ -27,7 +30,7 @@ def main():
                 Partie.touche[event.key]= True
             elif event.type==pygame.KEYUP:
                 Partie.touche[event.key]=False
-
+        pygame.time.delay(10)
         pygame.display.update()
 
     vitesse=10
