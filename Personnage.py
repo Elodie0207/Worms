@@ -15,6 +15,8 @@ class Personnage(pygame.sprite.Sprite):
         self.saut=False
         self.nbJumpMax=20
         self.nbJump=0
+        self.vitesseChute=0
+
     def bouger_droite(self):
         self.getRect.x+=self.vitesse
 
@@ -29,8 +31,8 @@ class Personnage(pygame.sprite.Sprite):
             else:
                 self.saut=False
 
-    def vie(self,surface):
-        couleur=(178,34,34)
-        position=[self.getRect.x,self.getRect.y,self.vie,10]
-        pygame.draw.rect(surface,couleur,position)
+    def vie(self,screen):
+        self.barreVie=pygame.Surface((self.getRect.width,5))
+        self.barreCouleur.fill((255,0,0))
+
 
