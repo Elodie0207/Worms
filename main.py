@@ -41,8 +41,7 @@ def main():
             elif event.type==pygame.KEYUP:
                 Partie.touche[event.key]=False
 
-
-       # wallList.draw(screen)
+        #wallList.draw(screen)
         pygame.draw.rect(screen,(0,255,0),(Partie.personnage.getRect.x,Partie.personnage.getRect.y-10,Partie.personnage.vie/Partie.personnage.vieMax*Partie.personnage.getRect.width,5))
         if Partie.personnage.getRect.bottom>=screen.get_height():
             Partie.personnage.getRect.bottom=700
