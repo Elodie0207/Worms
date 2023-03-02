@@ -12,6 +12,7 @@ def main():
     screen=pygame.display.set_mode((1080,700))
     pygame.display.set_caption("Worms")
     background=pygame.image.load("Image/111130142640_50.jpg").convert()
+
     Partie=Jeu()
     montre=pygame.time.Clock()
     run=True
@@ -21,15 +22,17 @@ def main():
     cube_size=10
     cube_rect=pygame.Rect(0,0,cube_size,cube_size)
 
+
     while run:
         #fenêtre du jeu
         montre.tick(60)
         screen.blit(background,(0,-100))
         #fenêtre du perso
         screen.blit(Partie.personnage.perso,Partie.personnage.getRect)
+        Partie.personnage.projectile.draw(screen)
         Partie.bouger()
         print(Partie.personnage.getRect.y)
-
+        Partie.tirer()
         wallList=pygame.sprite.Group()
         block1= Map(40,500,50,60)
         wallList.add(block1)
@@ -47,11 +50,6 @@ def main():
         if Partie.personnage.getRect.bottom>=screen.get_height():
             Partie.personnage.getRect.bottom=700
         pygame.display.update()
-
-
-
-
-
 
 
 

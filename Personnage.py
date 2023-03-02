@@ -1,6 +1,6 @@
 import pygame
 from pygame.locals import*
-
+from Armes import  Armes
 class Personnage(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
@@ -16,6 +16,11 @@ class Personnage(pygame.sprite.Sprite):
         self.nbJumpMax=20
         self.nbJump=0
         self.vitesseChute=0
+        self.projectile=pygame.sprite.Group
+    def shoot(self):
+        projectile=Armes()
+        self.projectile.add(projectile)
+
 
     def bouger_droite(self):
         self.getRect.x+=self.vitesse
