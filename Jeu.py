@@ -26,7 +26,7 @@ class Jeu:
             self.personnage.sauter()
 
         if self.touche.get(pygame.K_g):
-
+            self.personnage.shoot(screen)
             self.viser=True
 
 
