@@ -17,10 +17,8 @@ class Personnage(pygame.sprite.Sprite):
         self.nbJump=0
         self.vitesseChute=0
         self.projectile=pygame.sprite.Group
-    def shoot(self):
-        projectile=Armes()
-        self.projectile.add(projectile)
-
+    def shoot(self,screen):
+        projectile=Armes(1080//2,700-50)
 
     def bouger_droite(self):
         self.getRect.x+=self.vitesse

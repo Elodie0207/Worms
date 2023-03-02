@@ -1,10 +1,8 @@
-import args as args
 import pygame
-import csv,os
+
+from Grenade import Grenade
 from Jeu import Jeu
 from Map import Map
-
-from Personnage import Personnage
 
 
 def main():
@@ -16,7 +14,6 @@ def main():
     Partie=Jeu()
     montre=pygame.time.Clock()
     run=True
-    Partie.ennemie()
     blanc=(255,255,255)
     noir=(0,0,0)
     cube_size=10
@@ -29,10 +26,10 @@ def main():
         screen.blit(background,(0,-100))
         #fenêtre du perso
         screen.blit(Partie.personnage.perso,Partie.personnage.getRect)
-        Partie.personnage.projectile.draw(screen)
+
+
         Partie.bouger()
         print(Partie.personnage.getRect.y)
-        Partie.tirer()
         wallList=pygame.sprite.Group()
         block1= Map(40,500,50,60)
         wallList.add(block1)

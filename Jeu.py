@@ -7,7 +7,7 @@ from Armes import Armes
 class Jeu:
     def __init__(self):
         self.personnage = Personnage()
-        self.armes=Armes()
+        self.armes=Armes(1080,700)
         self.touche = {}
         self.temps=60
 
@@ -25,10 +25,6 @@ class Jeu:
             self.personnage.sauter()
 
 
-    def tirer(self):
-          if self.touche.get(pygame.K_g):
-            self.personnage.shoot()
 
-    def ennemie(self):
-        ennemie = Ennemie()
+
 
