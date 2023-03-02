@@ -7,8 +7,9 @@ from Ennemie import Ennemie
 class Jeu:
     def __init__(self):
         self.personnage = Personnage()
-        self.touche = {
-        }
+
+        self.touche = {}
+        self.temps=60
 
     def bouger(self):
         if self.touche.get(pygame.K_d) and self.personnage.getRect.x + self.personnage.getRect.width < 1080:
@@ -22,6 +23,7 @@ class Jeu:
 
         if self.personnage.saut is True:
             self.personnage.sauter()
+
 
     def ennemie(self):
         ennemie = Ennemie()
