@@ -7,7 +7,6 @@ from Map import Map
 class Personnage(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
-
         self.vie=100
         self.vieMax=100
         self.vitesse=10
@@ -20,15 +19,16 @@ class Personnage(pygame.sprite.Sprite):
         self.nbJumpMax=20
         self.nbJump=0
         self.vitesseChute=0
-        self.block1= Map(self.getRect.x,self.getRect.y,50,60)
+        self.grenadeObj= Map(self.getRect.x,self.getRect.y,50,60)
 
     def draw(self,screen):
         wallList=pygame.sprite.Group()
-        wallList.add(self.block1)
+        wallList.add(self.grenadeObj)
         wallList.draw(screen)
 
     def update(self):
-        self.block1.rect.x+=50
+        self.grenadeObj.rect.x+=50
+        ##self.grenadeObj.rect.y-=40
     def bouger_droite(self):
         self.getRect.x+=self.vitesse
 
