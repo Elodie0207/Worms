@@ -12,6 +12,7 @@ class Personnage(pygame.sprite.Sprite):
         self.vieMax=100
         self.vitesse=10
         self.perso=pygame.image.load("Image/Perso.png")
+        self.grenade=pygame.image.load("Image/grenade.png")
         self.getRect=self.perso.get_rect()
         self.getRect.x=200
         self.getRect.y=500
@@ -21,13 +22,13 @@ class Personnage(pygame.sprite.Sprite):
         self.vitesseChute=0
         self.block1= Map(self.getRect.x,self.getRect.y,50,60)
 
-    def shoot(self,screen):
+    def draw(self,screen):
         wallList=pygame.sprite.Group()
         wallList.add(self.block1)
         wallList.draw(screen)
 
     def update(self):
-       self.block1.rect.x+=30
+        self.block1.rect.x+=50
     def bouger_droite(self):
         self.getRect.x+=self.vitesse
 

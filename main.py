@@ -1,6 +1,5 @@
 import pygame
 
-from Grenade import Grenade
 from Jeu import Jeu
 from Map import Map
 
@@ -35,11 +34,10 @@ def main():
                 run=False
             elif event.type==pygame.KEYDOWN:
                 Partie.touche[event.key]= True
+
             elif event.type==pygame.KEYUP:
                 Partie.touche[event.key]=False
-                Partie.personnage.shoot(screen)
-                Partie.personnage.update()
-
+          
 
         #wallList.draw(screen)
         pygame.draw.rect(screen,(0,255,0),(Partie.personnage.getRect.x,Partie.personnage.getRect.y-10,Partie.personnage.vie/Partie.personnage.vieMax*Partie.personnage.getRect.width,5))
