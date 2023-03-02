@@ -1,6 +1,9 @@
 import pygame
 from pygame.locals import*
 from Armes import  Armes
+from Map import Map
+
+
 class Personnage(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
@@ -16,10 +19,15 @@ class Personnage(pygame.sprite.Sprite):
         self.nbJumpMax=20
         self.nbJump=0
         self.vitesseChute=0
-        self.projectile=pygame.sprite.Group
-    def shoot(self,screen):
-        projectile=Armes(1080//2,700-50)
+        self.block1= Map(self.getRect.x,self.getRect.y,50,60)
 
+    def shoot(self,screen):
+        wallList=pygame.sprite.Group()
+        wallList.add(self.block1)
+        wallList.draw(screen)
+
+    def update(self):
+       self.block1.rect.x+=30
     def bouger_droite(self):
         self.getRect.x+=self.vitesse
 

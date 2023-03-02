@@ -10,7 +10,6 @@ def main():
     screen=pygame.display.set_mode((1080,700))
     pygame.display.set_caption("Worms")
     background=pygame.image.load("Image/111130142640_50.jpg").convert()
-
     Partie=Jeu()
     montre=pygame.time.Clock()
     run=True
@@ -28,11 +27,9 @@ def main():
         screen.blit(Partie.personnage.perso,Partie.personnage.getRect)
 
 
-        Partie.bouger()
+        Partie.bouger(screen)
         print(Partie.personnage.getRect.y)
-        wallList=pygame.sprite.Group()
-        block1= Map(40,500,50,60)
-        wallList.add(block1)
+
         for event in pygame.event.get():
             if event.type==pygame.QUIT:
                 run=False
@@ -40,6 +37,8 @@ def main():
                 Partie.touche[event.key]= True
             elif event.type==pygame.KEYUP:
                 Partie.touche[event.key]=False
+                Partie.personnage.shoot(screen)
+                Partie.personnage.update()
 
 
         #wallList.draw(screen)

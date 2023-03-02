@@ -10,8 +10,9 @@ class Jeu:
         self.armes=Armes(1080,700)
         self.touche = {}
         self.temps=60
+        self.viser=False
 
-    def bouger(self):
+    def bouger(self,screen):
         if self.touche.get(pygame.K_d) and self.personnage.getRect.x + self.personnage.getRect.width < 1080:
             self.personnage.bouger_droite()
         elif self.touche.get(pygame.K_q) and self.personnage.getRect.x > 0:
@@ -23,6 +24,14 @@ class Jeu:
 
         if self.personnage.saut is True:
             self.personnage.sauter()
+
+        if self.touche.get(pygame.K_g):
+
+            self.viser=True
+
+
+
+
 
 
 
