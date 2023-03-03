@@ -2,12 +2,14 @@ import pygame
 
 from Jeu import Jeu
 from Map import Map
-
+from terrain import Terrain
 
 def main():
     pygame.init()
     screen=pygame.display.set_mode((1080,700))
     pygame.display.set_caption("Worms")
+    BROWN=(165,42,42)
+
     background=pygame.image.load("Image/111130142640_50.jpg").convert()
     Partie=Jeu()
     montre=pygame.time.Clock()
@@ -21,6 +23,9 @@ def main():
     pygame.time.set_timer(pygame.USEREVENT, 1000)
     font = pygame.font.SysFont('Consolas', 30)
     player=True
+    terrain=Terrain("Image/Map.csv",screen)
+#Création liste tuiles:
+
     while run:
         #fenêtre du jeu
         montre.tick(60)
@@ -28,10 +33,10 @@ def main():
         #fenêtre du perso
         screen.blit(Partie.personnage.perso,Partie.personnage.getRect)
         screen.blit(Partie.ennemie.perso,Partie.ennemie.getRect)
+        terrain.run()
 
 
-
-        print(Partie.ennemie.vie)
+        print(Partie.personnage.getRect.x)
 
         for event in pygame.event.get():
             if event.type==pygame.QUIT:
@@ -59,7 +64,7 @@ def main():
         else:
             Partie.bougerPlayerBis(screen)
 
-        #wallList.draw(screen)
+
         screen.blit(font.render(texte, True, (0, 0, 0)), (32, 48))
         pygame.draw.rect(screen,(0,255,0),(Partie.personnage.getRect.x,Partie.personnage.getRect.y-10,Partie.personnage.vie/Partie.personnage.vieMax*Partie.personnage.getRect.width,5))
         pygame.draw.rect(screen,(0,255,0),(Partie.ennemie.getRect.x,Partie.ennemie.getRect.y-10,Partie.ennemie.vie/Partie.ennemie.vieMax*Partie.ennemie.getRect.width,5))

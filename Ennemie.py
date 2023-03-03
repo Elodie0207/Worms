@@ -16,7 +16,7 @@ class Ennemie(pygame.sprite.Sprite):
         self.grenade=pygame.image.load("Image/grenade.png")
         self.getRect=self.perso.get_rect()
         self.getRect.x=700
-        self.getRect.y=500
+        self.getRect.y=450
         self.saut=False
         self.nbJumpMax=20
         self.nbJump=0

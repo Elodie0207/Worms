@@ -3,6 +3,8 @@ import pygame
 from Personnage import Personnage
 from Ennemie import Ennemie
 from Armes import Armes
+from Tuiles import Tuiles
+
 
 class Jeu:
     def __init__(self):
@@ -13,10 +15,12 @@ class Jeu:
         self.viser=True
         self.tirer=False
         self.ennemie= Ennemie()
+        self.spritegrp=pygame.sprite.Group()
+
     def bougerPlayer(self,screen):
         if self.touche.get(pygame.K_d) and self.personnage.getRect.x + self.personnage.getRect.width < 1080:
             self.personnage.bouger_droite()
-        elif self.touche.get(pygame.K_q) and self.personnage.getRect.x > 0:
+        elif self.touche.get(pygame.K_q) and self.personnage.getRect.x > 0 :
             self.personnage.bouger_gauche()
 
         elif self.touche.get(pygame.K_SPACE) and self.personnage.saut is False:
