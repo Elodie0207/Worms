@@ -8,6 +8,7 @@ from Tuiles import Tuiles, TuilesFin
 
 
 class Terrain:
+    #on attribue les images nécessaire pour construire la map en fonction du csv
     def __init__(self, data, screen):
         self.display = screen
         terrain_lay = import_csv("Image/Map.csv")

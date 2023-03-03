@@ -14,7 +14,7 @@ def import_csv(file):
         return mapListe
 
 
-
+#fonction qui récupère les données du csv pour en faire une liste avec plusieurs partie en fonctiond des lignes
 def cartes(file):
     screen=pygame.image.load((file)).convert_alpha()
     x=int(screen.get_size()[0]/32)
