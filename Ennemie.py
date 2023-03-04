@@ -15,14 +15,14 @@ class Ennemie(pygame.sprite.Sprite):
         self.rect.x = 500
         self.rect.y = 500
         self.saut = False
-        self.nbJumpMax = 20
+        self.nbJumpMax = 25
         self.nbJump = 0
         self.vitesseChute = 0
         self.block1 = Map(self.rect.x,self.rect.y,50,60)
         self.is_facing_left = False
 
         self.player = Personnage()
-
+        self.parachute = False
     def draw(self,screen):
         wallList = pygame.sprite.Group()
         wallList.add(self.block1)
@@ -45,11 +45,15 @@ class Ennemie(pygame.sprite.Sprite):
 
     def sauter(self):
         if self.saut is True:
-            self.rect.y -= self.nbJump
-            if self.nbJump > -self.nbJumpMax:
-                self.nbJump -= 1
-            else:
-                self.saut = False
+            if self.parachute is False:
+                self.rect.y -= self.nbJump # nbJump = nbJumpMax au début
+                if self.nbJump > -self.nbJumpMax:
+                    self.nbJump -= 2.5 # Fais varier la gravité du personnage
+                else:
+                    self.saut=False
+
+            if self.parachute is True:
+                self.rect.y += 0.1 # Fais varier la vitesse de chute en parachute
 
     def vie(self):
         self.barreVie = pygame.Surface((self.rect.width,5))

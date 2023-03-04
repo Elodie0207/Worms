@@ -14,7 +14,7 @@ def main():
     montre = pygame.time.Clock()
     run = True
     #Partie.vie()
-    temps,texte=60,'60'.rjust(3)
+    temps,texte=5,'60'.rjust(3)
     pygame.time.set_timer(pygame.USEREVENT, 1000)
     font = pygame.font.SysFont('Consolas', 30)
     player = True
@@ -46,10 +46,12 @@ def main():
                     texte = str(temps).rjust(3)
                 else:
                     if player == False:
-                        temps,texte = 60,'60'.rjust(3)
+                        temps,texte = 5,'60'.rjust(3)
+
                         player = True
                     else:
-                        temps,texte = 60,'60'.rjust(3)
+                        temps,texte = 5,'60'.rjust(3)
+
                         player = False
 
 

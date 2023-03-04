@@ -29,7 +29,7 @@ class Jeu:
 #Collisions entre les personnages et la map
     def collide(self):
         if pygame.sprite.spritecollide(self.personnage, self.spriteTerrain, False):
-            '''print("collide")'''
+            self.personnage.parachute = False
             for objet in pygame.sprite.spritecollide(self.personnage, self.spriteTerrain, False):
                 if self.personnage.rect.bottom > objet.rect.top or self.personnage.rect.top > objet.rect.bottom :
                         self.personnage.rect.bottom = objet.rect.top+1 #ajout de +1 pour effacer le vide entre le personnage et la plateforme
@@ -38,11 +38,22 @@ class Jeu:
                     self.collisions = False
         else:
             self.collisions = False
-            self.personnage.rect.y+=5
+            if self.personnage.parachute is True : # Si le personnage tombe d'une plateforme en parachute, fais varier la gravité
+                self.personnage.rect.y += 5
+
+            elif self.personnage.saut is not True  : # Si le personnage tombe d'une plateforme sans sauter, je lui met une gravité de 20 pour qu'il redescende rapidement
+                self.personnage.rect.y += 20
+
+            elif  self.ennemie.parachute is True:
+                self.ennemie.rect.y += 5
+            elif self.ennemie.parachute is not True:
+
+                self.ennemie.rect.y += 20
 
 
 
         if pygame.sprite.spritecollide(self.ennemie, self.spriteTerrain, False):
+            self.ennemie.parachute = False
             for objet in pygame.sprite.spritecollide(self.ennemie, self.spriteTerrain, False):
                 if self.ennemie.rect.bottom > objet.rect.top:
                     self.ennemie.rect.bottom = objet.rect.top+1
@@ -117,6 +128,14 @@ class Jeu:
             self.grenade.render(screen)
             self.grenade.update()
 
+        if self.touche.get(pygame.K_p) and self.collisions is False: # Activer le parachute
+            self.personnage.parachute = True
+            print("Parachute activé")
+
+        """if self.touche.get(pygame.K_o): # Désactiver le parachute
+            self.personnage.parachute = False
+            print("Parachute désactiver")"""
+
          #gérer la collisions
 
 
@@ -136,7 +155,7 @@ class Jeu:
             self.ennemie.nbJump = self.ennemie.nbJumpMax
 
         if self.ennemie.saut is True and self.collisions is False:
-            self.personnage.sauter()
+            self.ennemie.sauter()
 
         if self.touche.get(pygame.K_UP):
             self.grenade.adjust_angle("up")
@@ -170,6 +189,10 @@ class Jeu:
         if self.grenade.thrown is True:
             self.grenade.render(screen)
             self.grenade.update()
+
+        if self.touche.get(pygame.K_p) and self.collisions is False: # Activer le parachute
+            self.ennemie.parachute = True
+            print("Parachute activé")
 
          #gérer la collisions
 
