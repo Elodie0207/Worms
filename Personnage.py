@@ -10,16 +10,17 @@ class Personnage(pygame.sprite.Sprite):
         self.vie=100
         self.vieMax=100
         self.vitesse=10
-        self.perso=pygame.image.load("Image/Perso.png")
+        self.image=pygame.image.load("Image/Perso.png")
         self.grenade=pygame.image.load("Image/grenade.png")
-        self.getRect=self.perso.get_rect()
-        self.getRect.x=200
-        self.getRect.y=500
+        self.rect=self.image.get_rect()
+        self.rect.x=200
+        self.rect.y=500
         self.saut=False
         self.nbJumpMax=20
         self.nbJump=0
         self.vitesseChute=0
-        self.grenadeObj= Map(self.getRect.x,self.getRect.y,50,60)
+        self.grenadeObj= Map(self.rect.x, self.rect.y, 50, 60)
+        self.deplacement=''
 
     def draw(self,screen):
         wallList=pygame.sprite.Group()
@@ -30,21 +31,21 @@ class Personnage(pygame.sprite.Sprite):
         self.grenadeObj.rect.x+=50
         ##self.grenadeObj.rect.y-=40
     def bouger_droite(self):
-        self.getRect.x+=self.vitesse
-
+        self.rect.x+=self.vitesse
+        self.deplacement='droite'
     def bouger_gauche(self):
-        self.getRect.x-=self.vitesse
-
+        self.rect.x-=self.vitesse
+        self.deplacement='gauche'
     def sauter(self):
         if self.saut is True:
-            self.getRect.y -= self.nbJump
+            self.rect.y -= self.nbJump
             if self.nbJump > -self.nbJumpMax:
                 self.nbJump -=1
             else:
                 self.saut=False
 
     def vie(self,screen):
-        self.barreVie=pygame.Surface((self.getRect.width,5))
+        self.barreVie=pygame.Surface((self.rect.width, 5))
         self.barreCouleur.fill((255,0,0))
 
 

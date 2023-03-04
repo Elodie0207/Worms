@@ -4,10 +4,11 @@ from Personnage import Personnage
 from Ennemie import Ennemie
 from Armes import Armes
 from Tuiles import Tuiles
+from terrain import Terrain
 
 
 class Jeu:
-    def __init__(self):
+    def __init__(self,screen):
         self.personnage = Personnage()
         self.armes=Armes(1080,700)
         self.touche = {}
@@ -15,42 +16,103 @@ class Jeu:
         self.viser=True
         self.tirer=False
         self.ennemie= Ennemie()
-        self.spritegrp=pygame.sprite.Group()
+        terrain=Terrain(screen)
+        self.spriteTerrain=terrain.tuiles()
+    #Creation de sprites
+        self.all_sprites=pygame.sprite.Group()
+        self.all_sprites.add(self.personnage)
+        self.all_sprites.add(self.ennemie)
+        self.all_sprites.add(self.spriteTerrain)
+        self.collisions=False
+
+    def collide(self):
+        if pygame.sprite.spritecollide(self.personnage, self.spriteTerrain, False):
+            print("collide")
+            for objet in pygame.sprite.spritecollide(self.personnage, self.spriteTerrain, False):
+                if self.personnage.rect.bottom > objet.rect.top or self.personnage.rect.top > objet.rect.bottom :
+                        self.personnage.rect.bottom = objet.rect.top+1
+
+                else:
+                    self.collisions = False
+        else:
+            self.collisions = False
+            self.personnage.rect.y+=5
+
+
+
+        if pygame.sprite.spritecollide(self.ennemie, self.spriteTerrain, False):
+            for objet in pygame.sprite.spritecollide(self.ennemie, self.spriteTerrain, False):
+                if self.ennemie.rect.bottom > objet.rect.top:
+                    self.ennemie.rect.bottom = objet.rect.top+1
+                else:
+                    self.collisions = False
+        else:
+            self.collisions = False
+            self.ennemie.rect.y+=5
+
+        if pygame.sprite.collide_rect(self.personnage, self.ennemie):
+            if self.personnage.rect.right > self.ennemie.rect.left and self.personnage.deplacement == "droite":
+                self.personnage.rect.right = self.ennemie.rect.left
+            elif self.personnage.rect.left < self.ennemie.rect.right and self.personnage.deplacement == "gauche":
+                self.personnage.rect.left = self.ennemie.rect.right
+            if self.personnage.rect.bottom > self.ennemie.rect.top and self.personnage.deplacement == "bas":
+                self.personnage.rect.bottom = self.ennemie.rect.top
+            elif self.personnage.rect.top < self.ennemie.rect.bottom and self.personnage.deplacement == "haut":
+                self.personnage.rect.top = self.ennemie.rect.bottom
+            else:
+                self.collisions = False
+        else:
+            self.collisions = False
+
 
     def bougerPlayer(self,screen):
-        if self.touche.get(pygame.K_d) and self.personnage.getRect.x + self.personnage.getRect.width < 1080:
+        self.collide()
+        if self.touche.get(pygame.K_d) and self.personnage.rect.x + self.personnage.rect.width < 1080  and self.collisions==False:
             self.personnage.bouger_droite()
-        elif self.touche.get(pygame.K_q) and self.personnage.getRect.x > 0 :
+
+        elif self.touche.get(pygame.K_q) and self.personnage.rect.x > 0  and  self.collisions==False:
             self.personnage.bouger_gauche()
 
-        elif self.touche.get(pygame.K_SPACE) and self.personnage.saut is False:
+        elif self.touche.get(pygame.K_SPACE) and self.personnage.saut is False and  self.collisions==False:
             self.personnage.saut = True
             self.personnage.nbJump = self.personnage.nbJumpMax
 
-        if self.personnage.saut is True:
+        if self.personnage.saut is True and  self.collisions==False:
             self.personnage.sauter()
 
         if self.touche.get(pygame.K_g):
                 self.personnage.draw(screen)
                 if self.touche.get(pygame.K_RETURN):
                     self.personnage.update()
+
+         #gérer la collisions
+
+
+
+
     def bougerPlayerBis(self,screen):
-        if self.touche.get(pygame.K_d) and self.ennemie.getRect.x + self.ennemie.getRect.width < 1080:
+        self.collide()
+        if self.touche.get(pygame.K_d) and self.ennemie.rect.x + self.ennemie.rect.width < 1080  and self.collisions==False:
             self.ennemie.bouger_droite()
-        elif self.touche.get(pygame.K_q) and self.ennemie.getRect.x > 0:
+
+        elif self.touche.get(pygame.K_q) and self.ennemie.rect.x > 0  and  self.collisions==False:
             self.ennemie.bouger_gauche()
 
-        elif self.touche.get(pygame.K_SPACE) and self.ennemie.saut is False:
+        elif self.touche.get(pygame.K_SPACE) and self.ennemie.saut is False and  self.collisions==False:
             self.ennemie.saut = True
             self.ennemie.nbJump = self.ennemie.nbJumpMax
 
-        if self.ennemie.saut is True:
+        if self.ennemie.saut is True and  self.collisions==False:
             self.ennemie.sauter()
 
         if self.touche.get(pygame.K_g):
                 self.ennemie.draw(screen)
                 if self.touche.get(pygame.K_RETURN):
                     self.ennemie.update()
+
+         #gérer la collisions
+
+
     def vie(self):
         self.ennemie.vies()
 
