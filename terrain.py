@@ -4,13 +4,18 @@ import pygame
 
 from ImportCsv import import_csv, cartes
 from Personnage import Personnage
-from Tuiles import Tuiles, TuilesFin
+
 
 class Tuiles(pygame.sprite.Sprite):
     def __init__(self,taille,x,y,screen):
         super().__init__()
         self.image=screen
         self.rect=self.image.get_rect(topleft=(x,y))
+
+class TuilesFin(Tuiles):
+    def __init__(self,size,x,y,screen):
+        super().__init__(size,x,y,screen)
+        self.image=screen
 
 class Terrain:
     #on attribue les images nécessaire pour construire la map en fonction du csv

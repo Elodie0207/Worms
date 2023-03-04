@@ -3,7 +3,7 @@ import pygame
 from Personnage import Personnage
 from Ennemie import Ennemie
 from Armes import Armes
-from Tuiles import Tuiles
+
 from terrain import Terrain
 
 
@@ -25,12 +25,13 @@ class Jeu:
         self.all_sprites.add(self.spriteTerrain)
         self.collisions=False
 
+#Collisions entre les personnages et la map
     def collide(self):
         if pygame.sprite.spritecollide(self.personnage, self.spriteTerrain, False):
             print("collide")
             for objet in pygame.sprite.spritecollide(self.personnage, self.spriteTerrain, False):
                 if self.personnage.rect.bottom > objet.rect.top or self.personnage.rect.top > objet.rect.bottom :
-                        self.personnage.rect.bottom = objet.rect.top+1
+                        self.personnage.rect.bottom = objet.rect.top+1 #ajout de +1 pour effacer le vide entre le personnage et la plateforme
 
                 else:
                     self.collisions = False
@@ -65,6 +66,7 @@ class Jeu:
             self.collisions = False
 
 
+#Fonction qui permet de bouger le personnage de Gauche
     def bougerPlayer(self,screen):
         self.collide()
         if self.touche.get(pygame.K_d) and self.personnage.rect.x + self.personnage.rect.width < 1080  and self.collisions==False:
@@ -89,7 +91,7 @@ class Jeu:
 
 
 
-
+#Fonction qui permet de bouger le personnage de Droite
     def bougerPlayerBis(self,screen):
         self.collide()
         if self.touche.get(pygame.K_d) and self.ennemie.rect.x + self.ennemie.rect.width < 1080  and self.collisions==False:

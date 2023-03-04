@@ -16,7 +16,7 @@ class Personnage(pygame.sprite.Sprite):
         self.rect.x=200
         self.rect.y=500
         self.saut=False
-        self.nbJumpMax=20
+        self.nbJumpMax=25
         self.nbJump=0
         self.vitesseChute=0
         self.grenadeObj= Map(self.rect.x, self.rect.y, 50, 60)
@@ -41,6 +41,7 @@ class Personnage(pygame.sprite.Sprite):
             self.rect.y -= self.nbJump
             if self.nbJump > -self.nbJumpMax:
                 self.nbJump -=1
+
             else:
                 self.saut=False
 
