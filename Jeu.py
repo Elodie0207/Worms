@@ -1,9 +1,11 @@
 import pygame
 
+
 from Personnage import Personnage
 from Ennemie import Ennemie
 
 from Grenade import Grenade
+
 from terrain import Terrain
 
 
@@ -77,11 +79,11 @@ class Jeu:
 
         if pygame.sprite.collide_rect(self.grenade, self.ennemie):
             if self.playerEtat==True:
-                self.ennemie.life-=1
+                self.ennemie.life-=10
 
         if pygame.sprite.collide_rect(self.grenade, self.personnage):
             if self.playerEtat==False:
-                self.personnage.life-=1
+                self.personnage.life-=10
 
         if pygame.sprite.spritecollide(self.grenade, self.spriteTerrain, False):
             for objet in pygame.sprite.spritecollide(self.grenade, self.spriteTerrain, False):
@@ -118,6 +120,7 @@ class Jeu:
         if self.touche.get(pygame.K_g) and self.grenade.flag is False:
             self.grenade = Grenade(0,0,0)
             self.grenade.flag = True
+
 
         if self.grenade.flag is True and self.grenade.usable is True:
             self.grenade.placement(player_pos)

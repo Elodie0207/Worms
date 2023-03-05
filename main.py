@@ -112,8 +112,7 @@ def main():
 
         if (Partie.ennemie.life <= 0 or Partie.personnage.life <= 0):
             Partie.victoire(screen, player)
-
-            run=False
+            menu()
         screen.blit(font.render(texte, True, (0, 0, 0)), (32, 48))
         pygame.draw.rect(screen, (0, 255, 0), (Partie.personnage.rect.x, Partie.personnage.rect.y - 10,
                                                Partie.personnage.life / Partie.personnage.vieMax * Partie.personnage.rect.width,
