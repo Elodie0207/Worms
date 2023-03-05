@@ -27,10 +27,7 @@ def main():
     Partie.ennemie.vie()
     sleep = False
     fin=False
-    if (Partie.ennemie.life <= 0 or Partie.personnage.life <= 0):
-            Partie.victoire(screen, player)
-            time.sleep(2)
-            fin=True
+
     while run:
         # fenêtre du jeu
         montre.tick(60)
@@ -67,8 +64,7 @@ def main():
                         player = "Joueur2"
 
 
-    if(sleep==True):
-        run=False
+
 
 
 
@@ -77,7 +73,10 @@ def main():
         elif Partie.playerEtat == False and sleep == False:
             Partie.bougerPlayerBis(screen)
 
-
+        if (Partie.ennemie.life <= 0 or Partie.personnage.life <= 0):
+            Partie.victoire(screen, player)
+        
+            run=False
         screen.blit(font.render(texte, True, (0, 0, 0)), (32, 48))
         pygame.draw.rect(screen, (0, 255, 0), (Partie.personnage.rect.x, Partie.personnage.rect.y - 10,
                                                Partie.personnage.life / Partie.personnage.vieMax * Partie.personnage.rect.width,
@@ -88,7 +87,8 @@ def main():
         if Partie.personnage.rect.bottom >= screen.get_height():
             Partie.personnage.rect.bottom = 700
         pygame.display.update()
-
+    if fin is True:
+        run=False
     pygame.quit()
     quit()
 
