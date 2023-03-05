@@ -5,7 +5,7 @@ class Personnage(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
 
-        self.life = 130
+        self.life = 140
         self.vieMax = 100
         self.vitesse = 10
         self.perso = pygame.image.load("Image/Perso.png")

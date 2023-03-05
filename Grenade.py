@@ -34,7 +34,22 @@ class Grenade(pygame.sprite.Sprite):
     def collision(self, objects):
         collisions = pygame.sprite.spritecollide(self, objects, False)
         if collisions:
-            self.exploser()
+            self.handle_collision(collisions)
+
+    def handle_collision(self, collisions):
+        for obj in collisions:
+            if self.vel.y > 0 and self.rect.bottom > obj.rect.top:
+                self.vel.y = -0.8
+                self.pos.y = obj.rect.top - self.rect.height / 2
+            elif self.vel.y < 0 and self.rect.top < obj.rect.bottom:
+                self.vel.y= -0.8
+                self.pos.y = obj.rect.bottom + self.rect.height / 2
+            elif self.vel.x > 0 and self.rect.right > obj.rect.left:
+                self.vel.x = -0.8
+                self.pos.x = obj.rect.left - self.rect.width / 2
+            elif self.vel.x < 0 and self.rect.left < obj.rect.right:
+                self.vel.x= -0.8
+                self.pos.x = obj.rect.right + self.rect.width / 2
 
     def exploser(self):
         explosion_radius = 50

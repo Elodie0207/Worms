@@ -5,14 +5,17 @@ from Personnage import Personnage
 from Ennemie import Ennemie
 
 from Grenade import Grenade
+from Roquette import Roquette
 
 from terrain import Terrain
+
 
 
 class Jeu:
     def __init__(self,screen):
         self.personnage = Personnage()
         self.grenade = Grenade(0,0,0)
+        self.roquette=Roquette(0,0,0)
         self.touche = {}
         self.temps=60
         self.viser=True
@@ -23,6 +26,7 @@ class Jeu:
     #Creation de sprites
         self.all_sprites=pygame.sprite.Group()
         self.all_sprites.add(self.personnage)
+        self.all_sprites.add(self.roquette)
         self.all_sprites.add(self.ennemie)
         self.all_sprites.add(self.grenade)
         self.all_sprites.add(self.spriteTerrain)
@@ -51,8 +55,6 @@ class Jeu:
                 self.ennemie.rect.y += 5
             elif self.ennemie.parachute is not True:
                 self.ennemie.rect.y += 20
-
-
 
         if pygame.sprite.spritecollide(self.ennemie, self.spriteTerrain, False):
             self.ennemie.parachute = False
@@ -85,16 +87,35 @@ class Jeu:
             if self.playerEtat==False:
                 self.personnage.life-=10
 
-        if pygame.sprite.spritecollide(self.grenade, self.spriteTerrain, False):
-            for objet in pygame.sprite.spritecollide(self.grenade, self.spriteTerrain, False):
-               if self.grenade.rect.bottom > objet.rect.top or self.grenade.rect.top > objet.rect.bottom :
-                        self.grenade.rect.bottom=450
+        if pygame.sprite.collide_rect(self.roquette, self.ennemie):
+            if self.playerEtat==True:
+                self.ennemie.life-=5
 
+        if pygame.sprite.collide_rect(self.roquette, self.personnage):
+            if self.playerEtat==False:
+                self.personnage.life-=5
+
+        if pygame.sprite.spritecollide(self.grenade, self.spriteTerrain, False):
+
+            for objet in pygame.sprite.spritecollide(self.grenade, self.spriteTerrain, False):
+
+                self.grenade.collision(self.spriteTerrain)
+                if self.grenade.rect.bottom > objet.rect.top or self.grenade.rect.top > objet.rect.bottom :
+
+                    self.grenade.rect.bottom = 450
 
         else:
             self.collisions = False
 
+        if pygame.sprite.spritecollide(self.roquette, self.spriteTerrain, False):
+            for objet in pygame.sprite.spritecollide(self.roquette, self.spriteTerrain, False):
+               if self.roquette.rect.bottom > objet.rect.top or self.roquette.rect.top > objet.rect.bottom :
+                        self.roquette.rect.bottom=450
+                        self.roquette.exploser()
 
+
+        else:
+            self.collisions = False
 #Fonction qui permet de bouger le personnage de Gauche
     def bougerPlayer(self,screen):
         self.collide()
@@ -120,6 +141,37 @@ class Jeu:
         if self.touche.get(pygame.K_g) and self.grenade.flag is False:
             self.grenade = Grenade(0,0,0)
             self.grenade.flag = True
+
+        if self.touche.get(pygame.K_r) and self.roquette.flag is False:
+            self.roquette = Roquette(0,0,0)
+            self.roquette.flag = True
+
+
+        if self.roquette.flag is True and self.roquette.usable is True:
+            self.roquette.placement(player_pos)
+            self.roquette.trajectoire(screen, self.personnage.is_facing_left)
+            self.roquette.drawRoquette(screen)
+            self.roquette.lanceur(player_pos)
+            if self.touche.get(pygame.K_SPACE):
+                self.roquette.draw(screen)
+                self.roquette.charging = True
+                self.roquette.power += 1
+                print("throwing power = ", self.roquette.power)
+            else:
+                self.roquette.charging = False
+
+        if self.roquette.charging is False and self.roquette.power > 0 and self.roquette.thrown is False:
+            self.roquette.charging = False
+            self.roquette.thrown = True
+            self.roquette.flag = False
+            self.roquette.usable = False
+            self.roquette.lancer(self.personnage.is_facing_left)
+            self.roquette.power = 0
+            print("throw")
+
+        if self.roquette.thrown is True:
+            self.roquette.draw(screen)
+            self.roquette.update()
 
 
         if self.grenade.flag is True and self.grenade.usable is True:
@@ -208,6 +260,37 @@ class Jeu:
         if self.touche.get(pygame.K_p) and self.collisions is False: # Activer le parachute
             self.ennemie.parachute = True
             print("Parachute activé")
+
+        if self.touche.get(pygame.K_r) and self.roquette.flag is False:
+            self.roquette = Roquette(0,0,0)
+            self.roquette.flag = True
+
+
+        if self.roquette.flag is True and self.roquette.usable is True:
+            self.roquette.placement(player_pos)
+            self.roquette.trajectoire(screen, self.ennemie.is_facing_left)
+            self.roquette.drawRoquette(screen)
+            self.roquette.lanceur(player_pos)
+            if self.touche.get(pygame.K_SPACE):
+                self.roquette.draw(screen)
+                self.roquette.charging = True
+                self.roquette.power += 1
+                print("throwing power = ", self.roquette.power)
+            else:
+                self.roquette.charging = False
+
+        if self.roquette.charging is False and self.roquette.power > 0 and self.roquette.thrown is False:
+            self.roquette.charging = False
+            self.roquette.thrown = True
+            self.roquette.flag = False
+            self.roquette.usable = False
+            self.roquette.lancer(self.ennemie.is_facing_left)
+            self.roquette.power = 0
+            print("throw")
+
+        if self.roquette.thrown is True:
+            self.roquette.draw(screen)
+            self.roquette.update()
 
          #gérer la collisions
 

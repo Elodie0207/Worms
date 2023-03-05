@@ -74,7 +74,7 @@ def main():
         screen.blit(Partie.ennemie.perso, Partie.ennemie.rect)
         terrain.run()
 
-        print(Partie.ennemie.fin)
+        print(Partie.ennemie.life)
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
