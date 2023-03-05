@@ -2,7 +2,7 @@ import pygame
 
 from Personnage import Personnage
 from Ennemie import Ennemie
-from Armes import Armes
+
 from Grenade import Grenade
 from terrain import Terrain
 
@@ -11,7 +11,6 @@ class Jeu:
     def __init__(self,screen):
         self.personnage = Personnage()
         self.grenade = Grenade(0,0,0)
-        self.armes=Armes(1080,700)
         self.touche = {}
         self.temps=60
         self.viser=True
@@ -23,8 +22,10 @@ class Jeu:
         self.all_sprites=pygame.sprite.Group()
         self.all_sprites.add(self.personnage)
         self.all_sprites.add(self.ennemie)
+        self.all_sprites.add(self.grenade)
         self.all_sprites.add(self.spriteTerrain)
         self.collisions=False
+        self.playerEtat=False
 
 #Collisions entre les personnages et la map
     def collide(self):
@@ -47,7 +48,6 @@ class Jeu:
             elif  self.ennemie.parachute is True:
                 self.ennemie.rect.y += 5
             elif self.ennemie.parachute is not True:
-
                 self.ennemie.rect.y += 20
 
 
@@ -68,12 +68,27 @@ class Jeu:
                 self.personnage.rect.right = self.ennemie.rect.left
             elif self.personnage.rect.left < self.ennemie.rect.right: #and self.personnage.deplacement == "gauche":
                 self.personnage.rect.left = self.ennemie.rect.right
-            if self.personnage.rect.bottom > self.ennemie.rect.top: #and self.personnage.deplacement == "bas":
-                self.personnage.rect.bottom = self.ennemie.rect.top
-            elif self.personnage.rect.top < self.ennemie.rect.bottom: #and self.personnage.deplacement == "haut":
-                self.personnage.rect.top = self.ennemie.rect.bottom
+
             else:
                 self.collisions = False
+        else:
+            self.collisions = False
+
+
+        if pygame.sprite.collide_rect(self.grenade, self.ennemie):
+            if self.playerEtat==True:
+                self.ennemie.life-=3
+
+        if pygame.sprite.collide_rect(self.grenade, self.personnage):
+            if self.playerEtat==False:
+                self.personnage.life-=3
+
+        if pygame.sprite.spritecollide(self.grenade, self.spriteTerrain, False):
+            for objet in pygame.sprite.spritecollide(self.grenade, self.spriteTerrain, False):
+               if self.grenade.rect.bottom > objet.rect.top or self.grenade.rect.top > objet.rect.bottom :
+                        self.grenade.rect.bottom=450
+
+
         else:
             self.collisions = False
 
@@ -105,9 +120,9 @@ class Jeu:
             self.grenade.flag = True
 
         if self.grenade.flag is True and self.grenade.usable is True:
-            self.grenade.place_at_player(player_pos)
-            self.grenade.draw_trajectory(screen, self.personnage.is_facing_left)
-            self.grenade.render(screen)
+            self.grenade.placement(player_pos)
+            self.grenade.trajectoire(screen, self.personnage.is_facing_left)
+            self.grenade.draw(screen)
             if self.touche.get(pygame.K_SPACE):
                 self.grenade.charging = True
                 self.grenade.power += 1
@@ -120,21 +135,18 @@ class Jeu:
             self.grenade.thrown = True
             self.grenade.flag = False
             self.grenade.usable = False
-            self.grenade.throw(self.personnage.is_facing_left)
+            self.grenade.lancer(self.personnage.is_facing_left)
             self.grenade.power = 0
             print("throw")
 
         if self.grenade.thrown is True:
-            self.grenade.render(screen)
+            self.grenade.draw(screen)
             self.grenade.update()
 
         if self.touche.get(pygame.K_p) and self.collisions is False: # Activer le parachute
             self.personnage.parachute = True
             print("Parachute activé")
 
-        """if self.touche.get(pygame.K_o): # Désactiver le parachute
-            self.personnage.parachute = False
-            print("Parachute désactiver")"""
 
          #gérer la collisions
 
@@ -167,9 +179,9 @@ class Jeu:
             self.grenade.flag = True
 
         if self.grenade.flag is True and self.grenade.usable is True:
-            self.grenade.place_at_player(player_pos)
-            self.grenade.draw_trajectory(screen, self.ennemie.is_facing_left)
-            self.grenade.render(screen)
+            self.grenade.placement(player_pos)
+            self.grenade.trajectoire(screen, self.ennemie.is_facing_left)
+            self.grenade.draw(screen)
             if self.touche.get(pygame.K_SPACE):
                 self.grenade.charging = True
                 self.grenade.power += 1
@@ -182,12 +194,12 @@ class Jeu:
             self.grenade.thrown = True
             self.grenade.flag = False
             self.grenade.usable = False
-            self.grenade.throw(self.ennemie.is_facing_left)
+            self.grenade.lancer(self.ennemie.is_facing_left)
             self.grenade.power = 0
             print("throw")
 
         if self.grenade.thrown is True:
-            self.grenade.render(screen)
+            self.grenade.draw(screen)
             self.grenade.update()
 
         if self.touche.get(pygame.K_p) and self.collisions is False: # Activer le parachute
@@ -197,8 +209,11 @@ class Jeu:
          #gérer la collisions
 
 
-    '''def vie(self):
-        self.ennemie.vie()'''
+    def victoire(self,screen,player):
+        font = pygame.font.SysFont(None, 48)
+        text = font.render(f"Gagnant {player}", True, (255, 255, 255))
+        text_rect = text.get_rect(center=(500, 100))
+        screen.blit(text, text_rect)
 
 
 

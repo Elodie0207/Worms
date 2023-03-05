@@ -6,7 +6,7 @@ class Ennemie(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
 
-        self.vie = 100
+        self.life = 130
         self.vieMax = 100
         self.vitesse = 10
         self.perso = pygame.image.load("Image/Perso.png")
@@ -15,21 +15,14 @@ class Ennemie(pygame.sprite.Sprite):
         self.rect.x = 500
         self.rect.y = 500
         self.saut = False
-        self.nbJumpMax = 25
+        self.nbJumpMax = 35
         self.nbJump = 0
         self.vitesseChute = 0
         self.block1 = Map(self.rect.x,self.rect.y,50,60)
         self.is_facing_left = False
-
         self.player = Personnage()
         self.parachute = False
-    def draw(self,screen):
-        wallList = pygame.sprite.Group()
-        wallList.add(self.block1)
-        wallList.draw(screen)
-
-    def update(self):
-        self.block1.rect.x += 50
+        self.fin=False
 
     def bouger_droite(self):
         self.rect.x += self.vitesse
@@ -57,4 +50,7 @@ class Ennemie(pygame.sprite.Sprite):
 
     def vie(self):
         self.barreVie = pygame.Surface((self.rect.width,5))
-        self.barreCouleur.fill((255,0,0))
+
+
+
+
