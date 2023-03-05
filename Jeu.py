@@ -77,11 +77,11 @@ class Jeu:
 
         if pygame.sprite.collide_rect(self.grenade, self.ennemie):
             if self.playerEtat==True:
-                self.ennemie.life-=3
+                self.ennemie.life-=1
 
         if pygame.sprite.collide_rect(self.grenade, self.personnage):
             if self.playerEtat==False:
-                self.personnage.life-=3
+                self.personnage.life-=1
 
         if pygame.sprite.spritecollide(self.grenade, self.spriteTerrain, False):
             for objet in pygame.sprite.spritecollide(self.grenade, self.spriteTerrain, False):

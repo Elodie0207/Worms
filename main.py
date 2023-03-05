@@ -7,6 +7,43 @@ import time
 import threading
 
 
+
+def menu():
+    pygame.init()
+    screen = pygame.display.set_mode((1080, 700))
+    pygame.display.set_caption("Menu")
+
+    background = pygame.image.load("Image/bgMenu.jpg").convert()
+
+    font = pygame.font.SysFont('Consolas', 30)
+
+    play = pygame.Rect(450, 100, 200, 50)
+    quit = pygame.Rect(450, 200, 200, 50)
+    run=True
+    while run:
+        for event in pygame.event.get():
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if play.collidepoint(event.pos):
+                    main()
+
+                if quit.collidepoint(event.pos):
+                    pygame.quit()
+                    quit()
+
+
+        screen.blit(background, (0, 0))
+
+        pygame.draw.rect(screen, (0, 0, 0), play)
+        pygame.draw.rect(screen, (0, 0, 0), quit)
+
+        JouerTexte = font.render("Jouer", True, (255, 255, 255))
+        QuitterTexte = font.render("Quitter", True, (255, 255, 255))
+
+        screen.blit(JouerTexte, (play.x + 60, play.y + 10))
+        screen.blit(QuitterTexte, (quit.x + 40, quit.y + 10))
+
+        pygame.display.update()
+
 def main():
     pygame.init()
     screen = pygame.display.set_mode((1080, 700))
@@ -17,7 +54,7 @@ def main():
     montre = pygame.time.Clock()
     run = True
     # Partie.vie()
-    temps, texte = 5, '60'.rjust(3)
+    temps, texte = 15, '15'.rjust(3)
     pygame.time.set_timer(pygame.USEREVENT, 1000)
     font = pygame.font.SysFont('Consolas', 30)
     Partie.playerEtat = True
@@ -53,12 +90,12 @@ def main():
                     texte = str(temps).rjust(3)
                 else:
                     if Partie.playerEtat == False:
-                        temps, texte = 5, '60'.rjust(3)
+                        temps, texte = 15, '15'.rjust(3)
 
                         Partie.playerEtat = True
                         player = "Joueur1"
                     else:
-                        temps, texte = 5, '60'.rjust(3)
+                        temps, texte = 15, '15'.rjust(3)
 
                         Partie.playerEtat = False
                         player = "Joueur2"
@@ -75,7 +112,7 @@ def main():
 
         if (Partie.ennemie.life <= 0 or Partie.personnage.life <= 0):
             Partie.victoire(screen, player)
-        
+
             run=False
         screen.blit(font.render(texte, True, (0, 0, 0)), (32, 48))
         pygame.draw.rect(screen, (0, 255, 0), (Partie.personnage.rect.x, Partie.personnage.rect.y - 10,
@@ -92,6 +129,5 @@ def main():
     pygame.quit()
     quit()
 
-
 if __name__ == "__main__":
-    main()
+    menu()
