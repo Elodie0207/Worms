@@ -95,17 +95,7 @@ class Jeu:
             if self.playerEtat==False:
                 self.personnage.life-=5
 
-        if pygame.sprite.spritecollide(self.grenade, self.spriteTerrain, False):
-
-            for objet in pygame.sprite.spritecollide(self.grenade, self.spriteTerrain, False):
-
-                self.grenade.collision(self.spriteTerrain)
-                if self.grenade.rect.bottom > objet.rect.top or self.grenade.rect.top > objet.rect.bottom :
-
-                    self.grenade.rect.bottom = 450
-
-        else:
-            self.collisions = False
+        self.grenade.collision(self.all_sprites)
 
         if pygame.sprite.spritecollide(self.roquette, self.spriteTerrain, False):
             for objet in pygame.sprite.spritecollide(self.roquette, self.spriteTerrain, False):
@@ -135,8 +125,11 @@ class Jeu:
 
         if self.touche.get(pygame.K_UP):
             self.grenade.adjust_angle("up")
+            self.roquette.adjust_angle("up")
         elif self.touche.get(pygame.K_DOWN):
             self.grenade.adjust_angle("down")
+            self.roquette.adjust_angle("down")
+
 
         if self.touche.get(pygame.K_g) and self.grenade.flag is False:
             self.grenade = Grenade(0,0,0)
@@ -226,8 +219,10 @@ class Jeu:
 
         if self.touche.get(pygame.K_UP):
             self.grenade.adjust_angle("up")
+            self.roquette.adjust_angle("up")
         elif self.touche.get(pygame.K_DOWN):
             self.grenade.adjust_angle("down")
+            self.roquette.adjust_angle("down")
 
         if self.touche.get(pygame.K_g) and self.grenade.flag is False:
             self.grenade = Grenade(0, 0, 0)

@@ -12,6 +12,7 @@ class Roquette(pygame.sprite.Sprite):
         self.vel = pygame.Vector2(0, 0)
         self.acc = pygame.Vector2(0, 0)
         self.gravity = pygame.Vector2(0, 0.98)
+        self.wind = pygame.Vector2(0.2, 0)
         self.angle = angle
         self.power = power
         self.timer = 120
@@ -28,7 +29,7 @@ class Roquette(pygame.sprite.Sprite):
         rectRotate = imageRotate.get_rect(center=self.place.center)
         screen.blit(imageRotate, rectRotate)
     def update(self):
-        self.vel += self.acc + self.gravity
+        self.vel += self.acc + self.gravity + self.wind
         self.pos += self.vel
         self.rect.center = self.pos
         self.timer -= 1
